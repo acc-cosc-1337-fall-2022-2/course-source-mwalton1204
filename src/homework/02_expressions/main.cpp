@@ -18,16 +18,16 @@ int main()
 
 	cout<<"\nEnter the percentage that you would like to tip: ";
 	cin>>tip_rate;
-	tip_rate = tip_rate/100; // convert from percentage to decimal
+	tip_rate = tip_rate/100; //convert tip rate from integer to decimal
 
 	tip_amount = get_tip_amount(meal_amount, tip_rate);
 
 	total = meal_amount + tax_amount + tip_amount;
 
-	cout<<"\nMeal Amount:   "<<meal_amount;
-	cout<<"\nSales Tax:     "<<tax_amount;
-	cout<<"\nTip Amount:    "<<tip_amount;
-	cout<<"\nTotal:         "<<total<<"\n\n";
+	cout<<"\nMeal Amount:   $"<<meal_amount;
+	cout<<"\nSales Tax:     $"<<tax_amount;
+	cout<<"\nTip Amount:    $"<<tip_amount;
+	cout<<"\nTotal:         $"<<total<<"\n\n";
 
 	return 0;
 }
