@@ -1,5 +1,5 @@
 //write include statements
-//test
+//testing
 int main() 
 {
 	return 0;
