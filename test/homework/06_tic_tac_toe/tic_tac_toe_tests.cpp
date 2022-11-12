@@ -107,9 +107,13 @@ TEST_CASE("Test win by third column")
     game.start_game(first_player);
 
     game.mark_board(3);//x-position
+    game.game_over();
     game.mark_board(2);
+    game.game_over();
     game.mark_board(6);//x-position
+    game.game_over();
     game.mark_board(2);
+    game.game_over();
     game.mark_board(9);//x-position
     game.game_over();
 

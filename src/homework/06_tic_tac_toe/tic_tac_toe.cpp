@@ -1,8 +1,30 @@
-//cpp
 #include"tic_tac_toe.h"
 
+//friend functions
+ostream& operator<<(ostream& out, const TicTacToe& game)
+{
+    for(int i = 0; i<9; i++)
+    {
+        if(i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7)
+        {out<<game.pegs[i]<<"|";}
+        if(i == 2 || i == 5 || i == 8)
+        {out<<game.pegs[i]<<"\n";}
+    }
 
-//public
+    return out;
+}
+istream& operator>>(istream& in, TicTacToe& game)
+{
+    int position;
+
+    cout << "Player " << game.get_player() << ", select a position 1-9";
+    in >> position;
+    game.mark_board(position);
+
+    return in;
+}
+
+//public functions
 bool TicTacToe::game_over()
 {
     if(check_column_win() || check_row_win() || check_diagonal_win())
@@ -20,7 +42,6 @@ bool TicTacToe::game_over()
         return false;
     }
 }
-
 void TicTacToe::start_game(string first_player)
 {
     clear_board();
@@ -34,36 +55,21 @@ void TicTacToe::start_game(string first_player)
         player = first_player;
     }
 }
-
 void TicTacToe::mark_board(int position)
 {
     pegs[position - 1] = player;
     set_next_player();
 }
-
 string TicTacToe::get_player() const
 {
     return player;
 }
-
-void TicTacToe::display_board() const
-{
-    for(int i = 0; i<9; i++)
-    {
-        if(i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7)
-        {cout<<pegs[i]<<"|";}
-        if(i == 2 || i == 5 || i == 8)
-        {cout<<pegs[i]<<"\n";}
-    }
-}
-
 string TicTacToe::get_winner()
 {
     return winner;
 }
 
-
-//private
+//private functions
 void TicTacToe::set_next_player()
 {
     if(player == "X")
@@ -75,7 +81,6 @@ void TicTacToe::set_next_player()
         player = "X";
     }
 }
-
 bool TicTacToe::check_board_full()
 {
     bool board_full;
@@ -90,7 +95,6 @@ bool TicTacToe::check_board_full()
 
     return board_full;
 }
-
 void TicTacToe::clear_board()
 {
     for(auto& peg: pegs)
@@ -98,7 +102,6 @@ void TicTacToe::clear_board()
         peg = " ";
     }
 }
-
 bool TicTacToe::check_column_win()
 {
     bool is_col_win;
@@ -122,7 +125,6 @@ bool TicTacToe::check_column_win()
 
     return is_col_win;
 }
-
 bool TicTacToe::check_row_win()
 {
     bool is_row_win;
@@ -146,7 +148,6 @@ bool TicTacToe::check_row_win()
 
     return is_row_win;
 }
-
 bool TicTacToe::check_diagonal_win()
 {
     bool is_diagonal_win;
@@ -166,7 +167,6 @@ bool TicTacToe::check_diagonal_win()
 
     return is_diagonal_win;
 }
-
 void TicTacToe::set_winner()
 {
     if(player == "X")

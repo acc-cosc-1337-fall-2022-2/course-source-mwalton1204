@@ -1,8 +1,10 @@
 #include "tic_tac_toe.h"
+#include "tic_tac_toe_manager.h"
 
 int main()
 {
     TicTacToe game;
+    TicTacToeManager manager;
 
     string first_player;
     string play_again;
@@ -30,13 +32,19 @@ int main()
 
             //Loop while players select positions until game over
             while (!game.game_over()) {
-                game.display_board();
-                cout << "Player " << game.get_player() << ", select a position 1-9";
-                cin >> position;
-                game.mark_board(position);
+                cout<<game;
+                cin>>game;
                 }
 
-            game.display_board();
+            cout<<game;
+            manager.save_games(game);
+
+            int o, x, t;
+            manager.get_winner_total(o, x, t);
+            cout<<"\nO Wins: "<<o<<"\n";
+            cout<<"X Wins: "<<x<<"\n";
+            cout<<"Ties: "<<t<<"\n";
+
             string winner = game.get_winner();
 
             //Output winner
@@ -47,13 +55,18 @@ int main()
             } else if (winner == "C") {
                 cout << "\nThe game has ended in a tie!\n";
             }
-
+        }
         //Ask if user would like to play again
         cout<<"Would you like to play again?";
         cin>>play_again;
+        if(play_again == "N" || play_again == "n")
+        {
+            break;
         }
     }
     while(play_again != "N" || play_again != "n");
+
+    cout<<manager;
 
     return 0;
 }
