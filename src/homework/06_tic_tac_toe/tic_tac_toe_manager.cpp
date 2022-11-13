@@ -5,9 +5,10 @@ ostream& operator<<(ostream& out, const TicTacToeManager& manager)
 {
     for(int i = 0; i < manager.games.size(); i++)
     {
-        out<<manager.games[i]<<"\n";
+        out<<"\nGame "<<i + 1<<"\n"<<manager.games[i];
     }
 
+    out<<"\nFinal Scores:\n";
     out<<"O Wins: "<<manager.o_win<<"\n";
     out<<"X Wins: "<<manager.x_win<<"\n";
     out<<"Ties: "<<manager.ties<<"\n";

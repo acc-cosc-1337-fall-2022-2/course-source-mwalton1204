@@ -13,14 +13,24 @@ ostream& operator<<(ostream& out, const TicTacToe& game)
 
     return out;
 }
-istream& operator>>(istream& in, TicTacToe& game)
-{
+
+istream& operator>>(istream& in, TicTacToe& game) {
     int position;
+    vector<int> legal_plays{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    bool error = true;
 
-    cout << "Player " << game.get_player() << ", select a position 1-9";
-    in >> position;
-    game.mark_board(position);
-
+    while (error) {
+        cout << "Player " << game.get_player() << ", select a position 1-9";
+        in>>position;
+        if (count(legal_plays.begin(), legal_plays.end(), position)) {
+            game.mark_board(position);
+            error = false;
+        } else {
+            cout << "\nInvalid Input. Try Again.\n";
+            in.clear();
+            in.ignore(INT_MAX, '\n');
+        }
+    }
     return in;
 }
 
@@ -42,6 +52,7 @@ bool TicTacToe::game_over()
         return false;
     }
 }
+
 void TicTacToe::start_game(string first_player)
 {
     clear_board();
@@ -55,6 +66,7 @@ void TicTacToe::start_game(string first_player)
         player = first_player;
     }
 }
+
 void TicTacToe::mark_board(int position)
 {
     pegs[position - 1] = player;
@@ -81,6 +93,7 @@ void TicTacToe::set_next_player()
         player = "X";
     }
 }
+
 bool TicTacToe::check_board_full()
 {
     bool board_full;
@@ -95,6 +108,7 @@ bool TicTacToe::check_board_full()
 
     return board_full;
 }
+
 void TicTacToe::clear_board()
 {
     for(auto& peg: pegs)
@@ -102,6 +116,7 @@ void TicTacToe::clear_board()
         peg = " ";
     }
 }
+
 bool TicTacToe::check_column_win()
 {
     bool is_col_win;
@@ -125,6 +140,7 @@ bool TicTacToe::check_column_win()
 
     return is_col_win;
 }
+
 bool TicTacToe::check_row_win()
 {
     bool is_row_win;
@@ -148,6 +164,7 @@ bool TicTacToe::check_row_win()
 
     return is_row_win;
 }
+
 bool TicTacToe::check_diagonal_win()
 {
     bool is_diagonal_win;
@@ -167,6 +184,7 @@ bool TicTacToe::check_diagonal_win()
 
     return is_diagonal_win;
 }
+
 void TicTacToe::set_winner()
 {
     if(player == "X")

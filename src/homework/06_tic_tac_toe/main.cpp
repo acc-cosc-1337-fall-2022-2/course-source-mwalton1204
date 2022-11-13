@@ -3,54 +3,50 @@
 
 int main()
 {
-    //Class object initialization
+//class object initialization
     TicTacToe game;
     TicTacToeManager manager;
 
-    //Variable initialization
+//variable initialization
     string first_player;
-    string play_again;
+    char play_again;
+    bool game_on = true;
+    bool play_again_invalid_input;
     int position;
-    bool invalid;
-    vector<int> legal_pos{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int o, x, t;
 
-    //Instructions
+//instructions
     cout<< "Tic Tac Toe\n\n";
     cout<< "Legal Positions:\n"
            "1|2|3\n"
            "4|5|6\n"
            "7|8|9\n\n";
 
-    //Main game loop
+//main game loop
     do
     {
+
+//prompt first player for X or O
         cout << "Player 1: Please choose X or O\n";
         cin >> first_player;
 
-        //Verify that first player selects X or O
-        if(first_player == "X" || first_player == "O")
-        {
+//verify valid selection
+        if(first_player == "X" || first_player == "O") {
+
+//start game
             game.start_game(first_player);
 
-            //Loop while players select positions until game over
-            while (!game.game_over())
-            {
+//alternate turns until game over
+            while (!game.game_over()) {
                 cout<<game;
                 cin>>game;
             }
 
-            //Display final game board and save game state
+//display final game board, save game and update score
             cout<<game;
             manager.save_games(game);
 
-            //Update and display score
-            int o, x, t;
-            manager.get_winner_total(o, x, t);
-            cout<<"\nO Wins: "<<o<<"\n";
-            cout<<"X Wins: "<<x<<"\n";
-            cout<<"Ties: "<<t<<"\n";
-
-            //Output winner
+//display winner
             string winner = game.get_winner();
             if (winner == "X") {
                 cout << "\nThe winner is " << winner << "!\n";
@@ -59,21 +55,39 @@ int main()
             } else if (winner == "C") {
                 cout << "\nThe game has ended in a tie!\n";
             }
+
+//display current score totals
+            manager.get_winner_total(o, x, t);
+            cout<<"\nCurrent Score Totals:";
+            cout<<"\nO Wins: "<<o<<"\n";
+            cout<<"X Wins: "<<x<<"\n";
+            cout<<"Ties: "<<t<<"\n";
+
+//prompt user to repeat or exit
+            do {
+                cout << "\nWould you like to play again? (Y/N)";
+                cin >> play_again;
+                if (play_again == 'N' || play_again == 'n') {
+                    play_again_invalid_input = false;
+                    game_on = false;
+                }
+                else if (play_again == 'Y' || play_again == 'y') {
+                    play_again_invalid_input = false;
+                }
+                else {
+                    play_again_invalid_input = true;
+                    cout << "Invalid Input. Try Again.\n";
+                }
+            } while (play_again_invalid_input);
         }
-
-        //Ask if user would like to play again
-        cout<<"Would you like to play again?";
-        cin>>play_again;
-
-        //End loop if player finished
-        if(play_again == "N" || play_again == "n")
-        {
-            break;
+        else {
+            cout<<"Invalid Input. Try Again.\n";
         }
     }
-    while(play_again != "N");
+    while(game_on);
 
-    cout<<manager;
+//display played games and score totals
+    cout << manager;
 
     return 0;
 }
