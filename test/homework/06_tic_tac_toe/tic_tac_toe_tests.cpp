@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 #include "tic_tac_toe.h"
+#include "tic_tac_toe_manager.h"
 
 TEST_CASE("Verify Test Configuration", "verification") {
 	REQUIRE(true == true);
@@ -238,3 +239,68 @@ TEST_CASE("Test win diagonally from bottom left")
     REQUIRE(winner == "X");
 }
 
+TEST_CASE("Test TicTacToe manager get winner total function")
+{
+    TicTacToe game;
+    TicTacToeManager manager;
+    int o, x, t;
+
+    game.start_game("X");
+
+    game.mark_board(7);//x-position
+    game.game_over();
+    game.mark_board(2);
+    game.game_over();
+    game.mark_board(5);//x-position
+    game.game_over();
+    game.mark_board(2);
+    game.game_over();
+    game.mark_board(3);//x-position
+    game.game_over();
+
+    manager.save_games(game);
+
+    game.start_game("O");
+
+    game.mark_board(7);//x-position
+    game.game_over();
+    game.mark_board(2);
+    game.game_over();
+    game.mark_board(5);//x-position
+    game.game_over();
+    game.mark_board(2);
+    game.game_over();
+    game.mark_board(3);//x-position
+    game.game_over();
+
+    manager.save_games(game);
+
+    game.start_game("X");
+
+    game.mark_board(2);
+    game.game_over();
+    game.mark_board(1);
+    game.game_over();
+    game.mark_board(5);
+    game.game_over();
+    game.mark_board(3);
+    game.game_over();
+    game.mark_board(6);
+    game.game_over();
+    game.mark_board(4);
+    game.game_over();
+    game.mark_board(7);
+    game.game_over();
+    game.mark_board(8);
+    game.game_over();
+    game.mark_board(9);
+    game.game_over();
+
+    manager.save_games(game);
+
+    manager.get_winner_total(o, x, t);
+
+    REQUIRE(x == 1);
+    REQUIRE(o == 1);
+    REQUIRE(t == 1);
+}

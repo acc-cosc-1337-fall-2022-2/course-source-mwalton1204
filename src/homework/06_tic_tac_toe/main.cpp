@@ -3,9 +3,11 @@
 
 int main()
 {
+    //Class object initialization
     TicTacToe game;
     TicTacToeManager manager;
 
+    //Variable initialization
     string first_player;
     string play_again;
     int position;
@@ -31,23 +33,25 @@ int main()
             game.start_game(first_player);
 
             //Loop while players select positions until game over
-            while (!game.game_over()) {
+            while (!game.game_over())
+            {
                 cout<<game;
                 cin>>game;
-                }
+            }
 
+            //Display final game board and save game state
             cout<<game;
             manager.save_games(game);
 
+            //Update and display score
             int o, x, t;
             manager.get_winner_total(o, x, t);
             cout<<"\nO Wins: "<<o<<"\n";
             cout<<"X Wins: "<<x<<"\n";
             cout<<"Ties: "<<t<<"\n";
 
-            string winner = game.get_winner();
-
             //Output winner
+            string winner = game.get_winner();
             if (winner == "X") {
                 cout << "\nThe winner is " << winner << "!\n";
             } else if (winner == "O") {
@@ -56,15 +60,18 @@ int main()
                 cout << "\nThe game has ended in a tie!\n";
             }
         }
+
         //Ask if user would like to play again
         cout<<"Would you like to play again?";
         cin>>play_again;
+
+        //End loop if player finished
         if(play_again == "N" || play_again == "n")
         {
             break;
         }
     }
-    while(play_again != "N" || play_again != "n");
+    while(play_again != "N");
 
     cout<<manager;
 
