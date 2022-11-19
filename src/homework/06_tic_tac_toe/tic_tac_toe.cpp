@@ -1,14 +1,28 @@
 #include"tic_tac_toe.h"
+#include"tic_tac_toe_3.h"
+#include"tic_tac_toe_4.h"
 
 //friend functions
 ostream& operator<<(ostream& out, const TicTacToe& game)
 {
-    for(int i = 0; i<9; i++)
+    for(int i = 0; i<game.pegs.size(); i++)
     {
-        if(i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7)
-        {out<<game.pegs[i]<<"|";}
-        if(i == 2 || i == 5 || i == 8)
-        {out<<game.pegs[i]<<"\n";}
+        if(game.pegs.size() == 9) {
+            if (i == 2 || i == 5 || i == 8) {
+                out << game.pegs[i] << "\n";
+            }
+            else {
+                out << game.pegs[i] << "|";
+            }
+        }
+        else if(game.pegs.size() == 16) {
+            if (i == 3 || i == 7 || i == 11 || i == 15) {
+                out << game.pegs[i] << "\n";
+            }
+            else {
+                out << game.pegs[i] << "|";
+            }
+        }
     }
 
     return out;
@@ -16,17 +30,24 @@ ostream& operator<<(ostream& out, const TicTacToe& game)
 
 istream& operator>>(istream& in, TicTacToe& game) {
     int position;
-    vector<int> legal_plays{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> legal_plays;
     bool error = true;
 
+    if(game.pegs.size() == 9) {
+        legal_plays = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    }
+    else {
+        legal_plays = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    }
+
     while (error) {
-        cout << "Player " << game.get_player() << ", select a position 1-9";
+        cout << "Player " << game.get_player() << ", select a position 1-"<<legal_plays.size();
         in>>position;
         if (count(legal_plays.begin(), legal_plays.end(), position)) {
             game.mark_board(position);
             error = false;
         } else {
-            cout << "\nInvalid Input. Try Again.\n";
+            cout << "\nInvalid Input. Try Again. Booty.\n";
             in.clear();
             in.ignore(INT_MAX, '\n');
         }
@@ -35,6 +56,8 @@ istream& operator>>(istream& in, TicTacToe& game) {
 }
 
 //public functions
+TicTacToe::TicTacToe(int size) : pegs(size*size, " ") {}
+
 bool TicTacToe::game_over()
 {
     if(check_column_win() || check_row_win() || check_diagonal_win())
@@ -72,14 +95,35 @@ void TicTacToe::mark_board(int position)
     pegs[position - 1] = player;
     set_next_player();
 }
+
 string TicTacToe::get_player() const
 {
     return player;
 }
+
 string TicTacToe::get_winner()
 {
     return winner;
 }
+
+
+
+//protected functions
+bool TicTacToe::check_column_win()
+{
+    return false;
+}
+
+bool TicTacToe::check_row_win()
+{
+    return false;
+}
+
+bool TicTacToe::check_diagonal_win()
+{
+    return false;
+}
+
 
 //private functions
 void TicTacToe::set_next_player()
@@ -115,74 +159,6 @@ void TicTacToe::clear_board()
     {
         peg = " ";
     }
-}
-
-bool TicTacToe::check_column_win()
-{
-    bool is_col_win;
-
-    if(pegs[0] == pegs[3] && pegs[3] == pegs[6] && pegs[0] != " ")
-    {
-        is_col_win = true;
-    }
-    else if(pegs[1] == pegs[4] && pegs[4] == pegs[7] && pegs[1] != " ")
-    {
-        is_col_win = true;
-    }
-    else if(pegs[2] == pegs[5] && pegs[5] == pegs[8] && pegs[2] != " ")
-    {
-        is_col_win = true;
-    }
-    else
-    {
-        is_col_win = false;
-    }
-
-    return is_col_win;
-}
-
-bool TicTacToe::check_row_win()
-{
-    bool is_row_win;
-
-    if(pegs[0] == pegs[1] && pegs[1] == pegs[2] && pegs[0] != " ")
-    {
-        is_row_win = true;
-    }
-    else if(pegs[3] == pegs[4] && pegs[4] == pegs[5] && pegs[3] != " ")
-    {
-        is_row_win = true;
-    }
-    else if(pegs[6] == pegs[7] && pegs[7] == pegs[8] && pegs[6] != " ")
-    {
-        is_row_win = true;
-    }
-    else
-    {
-        is_row_win = false;
-    }
-
-    return is_row_win;
-}
-
-bool TicTacToe::check_diagonal_win()
-{
-    bool is_diagonal_win;
-
-    if(pegs[0] == pegs[4] && pegs[4] == pegs[8] && pegs[0] != " ")
-    {
-        is_diagonal_win = true;
-    }
-    else if(pegs[2] == pegs[4] && pegs[4] == pegs[6] && pegs[2] != " ")
-    {
-        is_diagonal_win = true;
-    }
-    else
-    {
-        is_diagonal_win = false;
-    }
-
-    return is_diagonal_win;
 }
 
 void TicTacToe::set_winner()

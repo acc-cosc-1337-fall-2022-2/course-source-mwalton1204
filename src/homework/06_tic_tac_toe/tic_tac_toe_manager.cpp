@@ -5,7 +5,8 @@ ostream& operator<<(ostream& out, const TicTacToeManager& manager)
 {
     for(int i = 0; i < manager.games.size(); i++)
     {
-        out<<"\nGame "<<i + 1<<"\n"<<manager.games[i];
+        auto& game = manager.games[i];
+        out<<"\nGame "<<i + 1<<"\n"<<*game;
     }
 
     out<<"\nFinal Scores:\n";
@@ -17,11 +18,12 @@ ostream& operator<<(ostream& out, const TicTacToeManager& manager)
 }
 
 //public functions
-void TicTacToeManager::save_games(TicTacToe b)
+void TicTacToeManager::save_games(unique_ptr<TicTacToe>& b)
 {
-    games.push_back(b);
-    string winner = b.get_winner();
+    string winner = b->get_winner();
     update_winner_count(winner);
+    games.push_back(std::move(b));
+
 }
 void TicTacToeManager::get_winner_total(int& o, int& x, int& t)
 {
