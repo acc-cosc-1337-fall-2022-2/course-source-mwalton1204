@@ -21,7 +21,7 @@ friend ostream& operator<<(ostream& out, const TicTacToe& game);
 friend istream& operator>>(istream& in, TicTacToe& game);
 
 public:
-    TicTacToe(int size);
+     TicTacToe(int size);
     bool game_over();
     void start_game(string first_player);
     void mark_board(int position);

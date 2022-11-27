@@ -28,30 +28,14 @@ ostream& operator<<(ostream& out, const TicTacToe& game)
     return out;
 }
 
-istream& operator>>(istream& in, TicTacToe& game) {
+istream& operator>>(istream& in, TicTacToe& game)
+{
     int position;
-    vector<int> legal_plays;
-    bool error = true;
 
-    if(game.pegs.size() == 9) {
-        legal_plays = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    }
-    else {
-        legal_plays = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
-    }
+    cout << "Player " << game.get_player() << " choose position 1-" << game.pegs.size()<< ":";
+    in >> position;
+    game.mark_board(position);
 
-    while (error) {
-        cout << "Player " << game.get_player() << ", select a position 1-"<<legal_plays.size();
-        in>>position;
-        if (count(legal_plays.begin(), legal_plays.end(), position)) {
-            game.mark_board(position);
-            error = false;
-        } else {
-            cout << "\nInvalid Input. Try Again. Booty.\n";
-            in.clear();
-            in.ignore(INT_MAX, '\n');
-        }
-    }
     return in;
 }
 
