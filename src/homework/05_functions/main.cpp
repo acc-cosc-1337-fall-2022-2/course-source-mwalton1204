@@ -1,14 +1,49 @@
-/*
-use a vector of int with values 8, 4, 20, 88, 66, 99
+#include "func.h"
 
-Prompt user for 1 for Get Max from vector and 2 for Get primes.
-Prompt user for a number and return max value or list of primes
-and display them to screen.
-Program continues until user decides to exit.
-
-*/
-int main() 
+int main()
 {
+    char repeat = 'Y';
+
+    while(repeat == 'Y' || repeat == 'y') {
+        //Menu
+        int selection = 0;
+
+        cout << "1 - Get GC Content\n"
+                "2 - Get DNA Complement\n"
+                "3 - Exit\n\n"
+                "Make a Selection:";
+
+        cin >> selection;
+
+        if (selection == 3) //Exit
+        {
+            exit(0);
+        }
+
+        //Get user input
+        string dna;
+        cout << "\n\nEnter a DNA string:";
+        cin >> dna;
+
+        //capitalize user input
+        for (char &i: dna) {
+            i = toupper(i);
+        }
+
+        if (selection == 1) //Get GC Content
+        {
+            cout << get_gc_content(dna);
+            cout<<"\nWould you like to perform another function? (y/n)";
+            cin>>repeat;
+
+        } else if (selection == 2) //Get DNA Complement
+        {
+            cout << get_dna_complement(dna);
+            cout<<"\nWould you like to perform another function? (y/n)";
+            cin>>repeat;
+        }
+
+    }
 
 	return 0;
 }
